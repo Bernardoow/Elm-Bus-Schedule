@@ -4,8 +4,8 @@ module Page.Home exposing (view, update, Model, Msg, init)
 -}
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, id, placeholder, attribute, classList, type_, style)
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (for, class, href, id, placeholder, attribute, classList, type_, style)
+import Html.Events exposing (onClick, onInput)
 import Request.Line
 import Views.Page as Page
 import Data.Line as Line exposing (Line)
@@ -13,13 +13,15 @@ import Page.Errored as Errored exposing (PageLoadError, pageLoadError)
 import Route exposing (Route)
 import Task exposing (Task)
 import Http
+import Regex
 
 
 -- MODEL --
 
 
 type alias Model =
-    { lines : List Line
+    { searchLine : String
+    , lines : List Line
     }
 
 
@@ -37,7 +39,7 @@ init =
             Request.Line.lines
                 |> Http.toTask
     in
-        Task.map Model loadLines
+        Task.map (Model "") loadLines
             |> Task.mapError handleLoadError
 
 
@@ -52,10 +54,20 @@ viewLine line =
         ]
 
 
-viewLines : List Line -> Html Msg
-viewLines lines =
-    List.map (\line -> viewLine line) lines
-        |> div [ class "col-xs-12 col-sm-8 col-md-8 col-lg-8 row" ]
+viewLines : String -> List Line -> Html Msg
+viewLines search lines =
+    let
+        regex_ =
+            Regex.caseInsensitive (Regex.regex search) |> Regex.contains
+
+        list =
+            if String.length search > 0 then
+                List.filter (\item -> regex_ item.name) lines
+                    |> List.map (\line -> viewLine line)
+            else
+                List.map (\line -> viewLine line) lines
+    in
+        div [ class "col-xs-12 col-sm-8 col-md-8 col-lg-8 row" ] list
 
 
 viewSidesAds : Html Msg
@@ -66,13 +78,25 @@ viewSidesAds =
         ]
 
 
+viewSearchLines : Html Msg
+viewSearchLines =
+    div [ class "form-group", style [ ( "padding", "20px" ) ] ]
+        [ label [ for "lineSearch" ] [ text "Busca de linhas" ]
+        , input [ onInput SearchInput, class "form-control", id "lineSearch", placeholder "Digite a linha", type_ "email" ]
+            []
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div [ class "home-page" ]
         [ div [ class "container-fluid page" ]
-            [ div [ class "row" ]
+            [ div [ class "row hidden-sm hidden-md hidden-lg" ]
+                [ viewSearchLines ]
+            , div
+                [ class "row" ]
                 [ viewSidesAds
-                , viewLines model.lines
+                , viewLines model.searchLine model.lines
                 , viewSidesAds
                 ]
             ]
@@ -84,11 +108,11 @@ view model =
 
 
 type Msg
-    = Noop
+    = SearchInput String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Noop ->
-            model ! []
+        SearchInput newSearch ->
+            { model | searchLine = newSearch } ! []
