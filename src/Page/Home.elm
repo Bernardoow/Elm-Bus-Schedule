@@ -47,7 +47,7 @@ init =
 
 viewLine : Line -> Html Msg
 viewLine line =
-    div [ class "col-md-3", style [ ( "padding", "10px" ) ] ]
+    div [ class "col-md-3 col-xs-6 col-sm-3 col-lg-3", style [ ( "padding", "10px" ) ] ]
         [ a [ Line.createSlug line.name |> Route.Line |> Route.href, class "btn btn-primary btn-block btn-lg" ] [ text line.name ]
         ]
 
@@ -55,7 +55,15 @@ viewLine line =
 viewLines : List Line -> Html Msg
 viewLines lines =
     List.map (\line -> viewLine line) lines
-        |> div [ class "col-md-6 row" ]
+        |> div [ class "col-xs-12 col-sm-8 col-md-8 col-lg-8 row" ]
+
+
+viewSidesAds : Html Msg
+viewSidesAds =
+    div [ class "col-xs-0 col-sm-2 col-md-2 col-lg-2 hidden-xs" ]
+        [ div [ class "sidebar" ]
+            []
+        ]
 
 
 view : Model -> Html Msg
@@ -63,11 +71,9 @@ view model =
     div [ class "home-page" ]
         [ div [ class "container-fluid page" ]
             [ div [ class "row" ]
-                [ div [ class "col-md-3" ]
-                    [ div [ class "sidebar" ]
-                        []
-                    ]
+                [ viewSidesAds
                 , viewLines model.lines
+                , viewSidesAds
                 ]
             ]
         ]
