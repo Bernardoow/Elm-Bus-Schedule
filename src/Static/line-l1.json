@@ -1,0 +1,27 @@
+{
+	"name": "l1",
+	"start": "Lado A",
+	"end": "Lado B",
+	"periods": [
+		{"id":1, "name": "Segunda à Sábado" },
+		{"id":2, "name": "Domingo" }
+	],
+	"entries": [
+		{"time": "12:00", "info": "FA-BA", "period": 1, "atBeginning": 1},
+		{"time": "13:00", "info": "FA-BA", "period": 2, "atBeginning": 1},
+		{"time": "14:00", "info": "FA-BA", "period": 1, "atBeginning": 0},
+		{"time": "15:00", "info": "FA-BA", "period": 2, "atBeginning": 0},
+		{"time": "16:00", "info": "FA-BA", "period": 1, "atBeginning": 1},
+		{"time": "17:00", "info": "FA-BA", "period": 2, "atBeginning": 1},
+		{"time": "18:00", "info": "FA-BA", "period": 1, "atBeginning": 0},
+		{"time": "19:00", "info": "FA-BA", "period": 2, "atBeginning": 0},
+		{"time": "20:00", "info": "FA-BA", "period": 1, "atBeginning": 1},
+		{"time": "21:00", "info": "FA-BA", "period": 2, "atBeginning": 1}
+	],
+	"legends": [
+		{"name": "legends 1", "abbr": "lend1"},
+		{"name": "legends 2", "abbr": "lend2"},
+		{"name": "legends 3", "abbr": "lend3"},
+		{"name": "legends 4", "abbr": "lend4"}
+	]
+}
