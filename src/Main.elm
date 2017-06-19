@@ -90,9 +90,6 @@ update msg model =
 setRoute : Maybe Route -> Model -> ( Model, Cmd Msg )
 setRoute maybeRoute model =
     let
-        _ =
-            Debug.log "setRoute" maybeRoute
-
         transition toMsg task =
             { model | pageState = TransitioningFrom (getPage model.pageState) }
                 => Task.attempt toMsg task

@@ -65,8 +65,7 @@ view model =
             [ div [ class "row" ]
                 [ div [ class "col-md-3" ]
                     [ div [ class "sidebar" ]
-                        [ p [] [ text "Popular Tags" ]
-                        ]
+                        []
                     ]
                 , viewLines model.lines
                 ]

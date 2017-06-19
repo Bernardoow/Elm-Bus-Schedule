@@ -219,8 +219,7 @@ view model =
             [ div [ class "row" ]
                 [ div [ class "col-md-3" ]
                     [ div [ class "sidebar" ]
-                        [ p [] [ text "Popular Tags" ]
-                        ]
+                        []
                     ]
                 , div [ class "col-md-6" ]
                     [ viewButton
