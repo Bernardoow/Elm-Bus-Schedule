@@ -27,6 +27,11 @@ type alias Model =
     }
 
 
+type StartedAt
+    = Beginning
+    | End
+
+
 init : String -> Task PageLoadError Model
 init url =
     let
@@ -107,9 +112,17 @@ viewPeriods model =
                 |> ul [ class "nav nav-tabs" ]
 
 
-viewPeriodTable : Model -> Int -> Html Msg
-viewPeriodTable model atBeginning =
+viewPeriodTable : Model -> StartedAt -> Html Msg
+viewPeriodTable model at =
     let
+        atBeginning =
+            case at of
+                Beginning ->
+                    1
+
+                End ->
+                    0
+
         entries =
             case model.line.entries of
                 Nothing ->
@@ -168,8 +181,8 @@ viewPeriodTable model atBeginning =
 
 viewPeriod model =
     div [ class "row" ]
-        [ div [ class "col-md-6" ] [ viewPeriodTable model 1 ]
-        , div [ class "col-md-6" ] [ viewPeriodTable model 0 ]
+        [ div [ class "col-md-6" ] [ viewPeriodTable model Beginning ]
+        , div [ class "col-md-6" ] [ viewPeriodTable model End ]
         ]
 
 
